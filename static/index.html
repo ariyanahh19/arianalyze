@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arianalyze - Sentimen Komentar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: space-between;
+      padding: 50px;
+      background: #fff;
+    }
+    .form-container {
+      flex: 1;
+      padding: 20px;
+      max-width: 600px;
+    }
+    .form-container h1 {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 25px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      font-weight: bold;
+      display: none;
+    }
+    .navbar {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+    }
+    .navbar button {
+      background: green;
+    }
+    .image {
+      flex: 1;
+    }
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="image">
+    <img src="https://undraw.co/api/illustrations/d06a5392-7388-4505-a7a4-9bcff6f96770" alt="Ilustrasi Sentimen"/>
+  </div>
+  <div class="form-container">
+    <div class="navbar">
+      <button onclick="alert('Login Admin Coming Soon')">Login</button>
+    </div>
+    <h1>Analisis Sentimen Komentar</h1>
+    <label for="komentar">Masukan Komentar</label>
+    <input type="text" id="komentar" placeholder="Tulis komentar...">
+    <button onclick="kirimKomentar()">OK</button>
+    <div class="result" id="hasil"></div>
+  </div>
+
+  <script>
+    async function kirimKomentar() {
+      const komentar = document.getElementById('komentar').value;
+      const hasil = document.getElementById('hasil');
+
+      const response = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: komentar })
+      });
+
+      const data = await response.json();
+      hasil.style.display = 'block';
+      hasil.innerText = data.prediksi_sentimen;
+    }
+  </script>
+</body>
+</html>
